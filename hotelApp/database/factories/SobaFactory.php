@@ -13,8 +13,10 @@ class SobaFactory extends Factory
      */
     public function definition()
     {
-        return [
-            //
+       return[
+            'broj_ljudi'=>$this->faker->numberBetween($min = 1, $max = 10) ,
+            'broj_sobe'=>$this->faker->numberBetween($min = 100, $max = 600) ,
+             
         ];
     }
 }

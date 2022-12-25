@@ -14,7 +14,10 @@ class GostFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'ime' => $this->faker->firstName(),
+            'prezime' =>$this->faker->lastName(),
+            'br_lk' =>  $this->faker->numerify('###########'),
+            
         ];
     }
 }
