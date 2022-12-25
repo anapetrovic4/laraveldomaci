@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Gost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class GostController extends Controller
 {
@@ -35,7 +36,25 @@ class GostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'ime' => 'required|string|max:50',
+            'prezime' => 'required|string|max:50',
+            'br_lk' => 'required|string|max:13', 
+             
+        ]);
+
+        if ($validator->fails()) 
+            return response()->json($validator->errors());
+        $d = Gost::create([
+            'ime' => $request->ime, 
+            'prezime' => $request->prezime, 
+            'br_lk' => $request->br_lk,
+ 
+
+
+        ]);
+        $d->save();
+        return response()->json(['Objekat je  kreiran', $d]);
     }
 
     /**
@@ -67,9 +86,29 @@ class GostController extends Controller
      * @param  \App\Models\Gost  $gost
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Gost $gost)
+    public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'ime' => 'string|max:50',
+            'prezime' => 'string|max:50',
+            'br_lk' => 'string|max:50', 
+          
+        ]);
+
+        if ($validator->fails()) 
+            return response()->json($validator->errors());
+        $d = Gost::find($id);
+        if($d){
+            $d->ime=$request->ime;
+            $d->prezime=$request->prezime;
+            $d->br_lk=$request->br_lk;
+ 
+
+            $d->save();
+            return response()->json( ["Uspesno izmenjeno!",$d]);
+        }else{
+            return response()->json("Objekat ne postoji u bazi");
+        }
     }
 
     /**
@@ -78,8 +117,14 @@ class GostController extends Controller
      * @param  \App\Models\Gost  $gost
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Gost $gost)
+    public function destroy($id) 
     {
-        //
+        $p =  Gost::find($id);
+        if($p){
+             $p->delete();
+             return response()->json(["Objekat obrisan",$p]);
+        }else{
+             return response()->json(["Greska"]);
+        }
     }
 }
