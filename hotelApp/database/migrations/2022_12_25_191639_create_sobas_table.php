@@ -15,6 +15,9 @@ class CreateSobasTable extends Migration
     {
         Schema::create('sobas', function (Blueprint $table) {
             $table->id();
+            $table->integer('broj_ljudi');
+            $table->string('broj_sobe');
+
             $table->timestamps();
         });
     }

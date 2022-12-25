@@ -15,6 +15,12 @@ class CreateIznajmljivanjesTable extends Migration
     {
         Schema::create('iznajmljivanjes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('gost_id');
+            $table->foreignId('soba_id');
+            $table->string('datum_od');
+            $table->string('datum_do');
+
+
             $table->timestamps();
         });
     }
